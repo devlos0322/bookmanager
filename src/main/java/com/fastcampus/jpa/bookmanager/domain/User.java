@@ -2,6 +2,9 @@ package com.fastcampus.jpa.bookmanager.domain;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 //@ToString
@@ -20,6 +23,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode //@Data 어노테이션에서 구현하고 있는 내용이고, Java에서 객체의 동등성을 비교하기 위해 Overriding하기를 권고하고 있음 (내용 확인 필요)
 @Data   //엔티티 객체를 사용하면서 가장 많이 씀 다음의 어노테이션을 자동으로 생성함. (Equivalent to {@code @Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode}.)
 @Builder //AllArgsConstructor 처럼 객체를 생성할 때 사용함. User.builder().name().email().build() 와 같은 빌더 형식을 만들 때 사용 (테스트코드 작성시 자주 사용됨)
+@Entity
 public class User {
     //create At, update At은 JPA의 기본요소
     //그외 객체지향 표준을 준수하기 위해 getter, setter를 만들어야한다.
@@ -28,6 +32,10 @@ public class User {
     //JPA에서는 컬럼이 몇십개 생성해야할 경우가 대부분이기 때문에 lombok을 이용하는것이 좋다.
     //ToString 해야하는이유
     //Java의 모든 class는 Object 클래스를 상속받는다.
+    @Id //Primary Key
+    @GeneratedValue //자동 증가
+    private Long id;
+
     @NonNull
     private String name;
     @NonNull
