@@ -5,13 +5,14 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.OptionalInt;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.endsWith;
 
 @SpringBootTest
 class UserRepositoryTest {
@@ -41,7 +42,7 @@ class UserRepositoryTest {
         users.forEach(System.out::println);
     */
 
-    /* 2번
+    /* 3번
         User user1 = new User("Jack", "jack@fast.com");
         User user2 = new User("Mason", "Mason@fast.com");
         userRepository.saveAll(Lists.newArrayList(user1,user2));
@@ -49,7 +50,50 @@ class UserRepositoryTest {
         users.forEach(System.out::println);
     */
         // 즉시 로딩과 지연 로딩 차이 확인하기
+    /* 4번
         User user = userRepository.findById(1L).orElse(null);
         System.out.println(user);
+    */
+    /* 5번
+//        userRepository.save(new User("new devlos", "devlos_new@gmail.com"));
+//        userRepository.flush(); //데이터베이스와 JPA의 데이터를 동기화 시킴
+        userRepository.saveAndFlush(new User("new devlos", "devlos_new@gmail.com"));
+        userRepository.findAll().forEach(System.out::println);
+    */
+    /*  6번 count로 exists 처리
+        boolean exists = userRepository.existsById(1L);
+        System.out.println(exists);
+    */
+//        userRepository.delete(userRepository.findById(1L).orElseThrow(RuntimeException::new));
+        //userRepository.deleteAll(userRepository.findAllById((Lists.newArrayList(1L,3L))));
+        // 쿼리상의 오베헤드 발생 . select -> delete가 수행되므로. 또한 Delete쿼리가 삭제하는만큼 생김
+// 7번
+/*
+        // 쿼리 한번으로 전체 실행
+        userRepository.deleteAllInBatch();
+        userRepository.findAll().forEach(System.out::println);
+*/
+/* 8번
+        Page<User> users = userRepository.findAll(PageRequest.of(0, 3));
+        System.out.println("page : " + users);
+        System.out.println("totalElements : " + users.getTotalElements());
+        System.out.println("totalPages : " + users.getTotalPages());
+        System.out.println("numberOfElements : " + users.getNumberOfElements());
+        System.out.println("sort :" + users.getSort());
+        System.out.println("sort :" + users.getSort());
+
+        users.getContent().forEach(System.out::println);
+
+ */
+        //QEE -> Query by example
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnorePaths("name")    //무시
+                .withMatcher("email", endsWith());
+        Example<User> example = Example.of(new User("ma", "devlos@gmail.com"),matcher);
+        userRepository.findAll(example).forEach(System.out::println);
+
     }
+
+
+
 }
