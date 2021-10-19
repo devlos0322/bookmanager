@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
            (Equivalent to {@code @Getter @Setter @RequiredArgsConstructor @ToString @EqualsAndHashCode}.)
         */
 @Builder //AllArgsConstructor 처럼 객체를 생성할 때 사용함. User.builder().name().email().build() 와 같은 빌더 형식을 만들 때 사용 (테스트코드 작성시 자주 사용됨)
-@Entity
+@Entity //Entity를 설정하면 프라이머리 키가 필요하다.
 public class User {
     //getter setter를 직접 만드는 방식 < generate를 이용하는 방법 < Lombok을 이용하는 방법
     //create At, update At은 JPA의 기본요소
