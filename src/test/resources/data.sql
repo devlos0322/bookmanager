@@ -13,4 +13,4 @@ call next value for hibernate_sequence;
 insert into user (`id`, `name`, `email`, `created_at`, `updated_at`) values (4, 'devlos4', 'devlos4@gmail.com', now(), now());
 
 call next value for hibernate_sequence;
-insert into user (`id`, `name`, `email`, `created_at`, `updated_at`) values (5, 'devlos5', 'devlos5@gmail.com', now(), now());
+insert into user (`id`, `name`, `email`, `created_at`, `updated_at`) values (5, 'devlos4', 'devlos5@gmail.com', now(), now());

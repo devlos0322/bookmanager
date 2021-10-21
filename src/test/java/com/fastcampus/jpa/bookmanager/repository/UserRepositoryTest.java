@@ -85,13 +85,22 @@ class UserRepositoryTest {
         users.getContent().forEach(System.out::println);
 
  */
+        //contains() => 양방향 매처
         //QEE -> Query by example
+        /*
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withIgnorePaths("name")    //무시
                 .withMatcher("email", endsWith());
         Example<User> example = Example.of(new User("ma", "devlos@gmail.com"),matcher);
         userRepository.findAll(example).forEach(System.out::println);
-
+        */
+        //Update
+        userRepository.save(new User("devlos", "devlos0322@gmail.com"));
+        User user = userRepository.findById(1L).orElseThrow(RuntimeException::new);
+        user.setEmail("devlos0323@gmail.com");
+        userRepository.save(user);
+        // SimpleJpaRepository
+        // 이 클래스는 JpaRepository의 구현체이다.
     }
 
 
